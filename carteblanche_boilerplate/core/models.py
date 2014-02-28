@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from carteblanche.base import Noun
-from carteblanche.django import DjangoVerb
+from carteblanche.models import DjangoVerb, availability_login_required
 
 # Create your models here.
 
@@ -13,21 +13,21 @@ class CoreVerb(DjangoVerb):
     condition_name = 'public'
 
 
-class SiteJoinVerb(UnauthenticatedOnlyVerb):
+class SiteJoinVerb(DjangoVerb):
     display_name = "Join Indiepen"
     view_name='user_ceate'
 
 
-class SiteLoginVerb(UnauthenticatedOnlyVerb):
+class SiteLoginVerb(DjangoVerb):
     display_name = "Login"
     view_name='user_login'
 
 
 class SiteRoot(Noun):
     '''
-    A hack that lets pages that have no actual noun have verbs and verb-based permissions. 
+    A hack that lets pages that have no actual noun have verbs and verb-based permissions.
     '''
-    verb_classes = [ProjectCreateVerb, SiteJoinVerb, SiteLoginVerb]
+    verb_classes = [SiteJoinVerb, SiteLoginVerb]
 
     class Meta:
         abstract = True
@@ -48,11 +48,12 @@ class ProjectSprocketVerb(CoreVerb):
     condition_name = 'is_authenticated'
     required = True
 
+    verb_classes = [SiteJoinVerb, SiteLoginVerb]
+
     @availability_login_required
     def is_available(self, user):
         return True
 
-class Sprocket(Model, Noun):
+class Sprocket(models.Model, Noun):
 	sprocketeers = models.ManyToManyField(User)
 	title = models.CharField(max_length=300)
-	verb_classes = [SprocketDetailVerb, SprocketUpdateVerb]
