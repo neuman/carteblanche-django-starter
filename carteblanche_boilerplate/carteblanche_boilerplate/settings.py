@@ -96,3 +96,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 TEMPLATE_DIRS = (
   os.path.join(BASE_DIR, "templates"),
 )
+from django.contrib.messages import constants as message_constants
+MESSAGE_TAGS = {
+    message_constants.ERROR: 'danger'
+}
