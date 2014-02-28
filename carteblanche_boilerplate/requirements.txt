@@ -1,0 +1,5 @@
+Django==1.6.1
+South==0.8.4
+argparse==1.2.1
+-e git://github.com/neuman/python-carteblanche.git@5d1bf0430ff387dc83ca7f9a4b0cbff141860887#egg=carteblanche-origin/development
+wsgiref==0.1.2
