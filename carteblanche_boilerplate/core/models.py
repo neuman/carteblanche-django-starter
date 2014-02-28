@@ -12,6 +12,7 @@ class CoreVerb(DjangoVerb):
     app = APPNAME
     condition_name = 'is_public'
 
+
 class AuthenticatedVerb(CoreVerb):
     '''
     abstract class for all verbs only visible to authenticated users
@@ -21,6 +22,7 @@ class AuthenticatedVerb(CoreVerb):
 
     def is_available(self, user):
         return user.is_authenticated()
+
 
 class NotAuthenticatedVerb(CoreVerb):
     '''
@@ -35,24 +37,16 @@ class NotAuthenticatedVerb(CoreVerb):
             return False
         return True
 
+
 class SiteJoinVerb(NotAuthenticatedVerb):
     display_name = "Join Indiepen"
     view_name='user_ceate'
+
 
 class SiteLoginVerb(NotAuthenticatedVerb):
     display_name = "Login"
     view_name='user_login'
 
-class ProjectCreateVerb(CoreVerb):
-    display_name = "Start New Project"
-    view_name='project_create'
-    condition_name = 'is_authenticated'
-    required = True
-
-
-    @availability_login_required
-    def is_available(self, user):
-        return True
 
 class SprocketCreateVerb(CoreVerb):
     display_name = "Create New Sprocket"
@@ -63,6 +57,7 @@ class SprocketCreateVerb(CoreVerb):
     @availability_login_required
     def is_available(self, user):
         return True
+
 
 class SiteRoot(Noun):
     '''
@@ -90,30 +85,18 @@ class SprocketeerVerb(CoreVerb):
 
 
 class SprocketUpdateVerb(SprocketeerVerb):
-    display_name = "Upload Post Files"
-    view_name = 'post_media_uploads'
+    display_name = "Update Sprocket"
+    view_name = 'sprocket_update'
 
 
 class SprocketDeleteVerb(SprocketeerVerb):
-    display_name = "Upload a File"
-    view_name = 'post_media_create'
-    visible = False
+    display_name = "Delete Sprocket"
+    view_name = 'sprocket_delete'
 
 
-class SprocketDetailVerb(CoreVerb):
-    display_name = "View Post"
-    view_name = 'post_detail'
-    condition_name = "can_view"
-    required = True
-    denied_message = "Sorry, that post isn't published yet."
-
-    def is_available(self, user):
-        if self.noun.is_published():
-            return True
-        elif self.noun.project.members.filter(id=user.id).count() > 0:
-                return True
-        else:
-            return False
+class SprocketDetailVerb(AuthenticatedVerb):
+    display_name = "View Sprocket"
+    view_name = 'sprocket_detail'
 
     def get_url(self):
         return reverse(viewname=self.view_name, args=[self.noun.id], current_app=self.app)
@@ -122,4 +105,7 @@ class SprocketDetailVerb(CoreVerb):
 class Sprocket(models.Model, Noun):
     sprocketeers = models.ManyToManyField(User)
     title = models.CharField(max_length=300)
-    verb_classes = [SprocketDetailVerb, SprocketUpdateVerb, SprocketDeleteVerb]
+    verb_classes = [SprocketDetailVerb, SprocketUpdateVerb]
+
+    def __str__(self):
+        return self.title

@@ -16,5 +16,6 @@ conditions: {{ conditions }}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}">{{ message }}</div>
 {% endfor %}
+Object: {{ noun }}
 {% block showcase %}{% endblock %}
 
