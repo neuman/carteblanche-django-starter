@@ -50,7 +50,7 @@ class UserLoginView(SiteRootView, FormView):
         return super(UserLoginView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse(viewname='user_detail', args=(self.object.id,), current_app='core')
+        return reverse(viewname='user_detail', args=(self.object.id,), current_app='core')     
 
 class SprocketCreateView(SiteRootView, CreateView):
     model = cm.Sprocket

@@ -1,20 +1,12 @@
+conditions: {{ conditions }}
 {% if available_verbs %}
-<li class="sub-menu active">
-	<a href="javascript:;" class="">
-		<i class="icon-cogs"></i>
-		<span>Verbs</span>
-		<span class="arrow"></span>
-	</a>
-	<ul class="sub">
-		{% block left_menu %}
-		{% for verb in available_verbs %}
+<ul>
+	{% for verb in available_verbs %}
 		{% if verb.visible %}
 		<li><a href="{{ verb.url }}">{{ verb.display_name }}</a></li>
 		{% endif %}
-		{% endfor %}
-		{% endblock %}
-	</ul>
-</li>
+	{% endfor %}
+</ul>
 {% endif %}
 
 
@@ -24,7 +16,5 @@
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}">{{ message }}</div>
 {% endfor %}
-
-
 {% block showcase %}{% endblock %}
 

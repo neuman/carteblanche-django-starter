@@ -99,3 +99,4 @@ class LoginForm(BootstrapForm):
 class SprocketForm(forms.ModelForm):
     class Meta:
         model = cm.Sprocket
+        fields = ['title']

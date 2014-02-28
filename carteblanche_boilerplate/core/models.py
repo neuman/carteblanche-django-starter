@@ -43,6 +43,17 @@ class SiteLoginVerb(NotAuthenticatedVerb):
     display_name = "Login"
     view_name='user_login'
 
+class ProjectCreateVerb(CoreVerb):
+    display_name = "Start New Project"
+    view_name='project_create'
+    condition_name = 'is_authenticated'
+    required = True
+
+
+    @availability_login_required
+    def is_available(self, user):
+        return True
+
 class SprocketCreateVerb(CoreVerb):
     display_name = "Create New Sprocket"
     view_name='sprocket_create'
