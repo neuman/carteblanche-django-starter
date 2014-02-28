@@ -1,5 +1,6 @@
 Django==1.6.1
 South==0.8.4
 argparse==1.2.1
--e git://github.com/neuman/python-carteblanche.git@5d1bf0430ff387dc83ca7f9a4b0cbff141860887#egg=carteblanche-origin/development
+-e git://github.com/neuman/python-carteblanche.git@ea3d5d86a81bb13c53b2633e28e862b3f041bd70#egg=carteblanche-origin/development
+ipython==1.2.1
 wsgiref==0.1.2
