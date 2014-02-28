@@ -5,7 +5,8 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
-from carteblanche.mixins import NounView
+#from carteblanche.mixins import NounView
+from mixins import NounView
 from django.contrib.auth import authenticate, login
 
 import core.models as cm

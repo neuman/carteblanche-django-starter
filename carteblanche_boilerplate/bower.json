@@ -1,0 +1,25 @@
+{
+  "name": "Indiepen",
+  "version": "0.0.3",
+  "main": "path/to/main.css",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "requirejs": "~2.1.10",
+    "bootstrap": "~3.0.3"
+  },
+  "homepage": "https://github.com/neuman/indiepen",
+  "authors": [
+    "Eric Neuman <soloptimus@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true
+}
