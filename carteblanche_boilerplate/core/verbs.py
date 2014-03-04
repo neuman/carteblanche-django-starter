@@ -22,7 +22,7 @@ class AuthenticatedVerb(CoreVerb):
 
 class NotAuthenticatedVerb(CoreVerb):
     '''
-    abstract class for all verbs only visible to not authenticated users
+    abstract class for all verbs only visible to users who are not authenticated
     '''
     condition_name = 'is_not_authenticated'
     required = True
@@ -54,12 +54,18 @@ class SprocketCreateVerb(CoreVerb):
     def is_available(self, user):
         return True
 
+class SprocketListVerb(AuthenticatedVerb):
+    display_name = "List Sprockets"
+    view_name = 'sprocket_list'
 
 class SiteRoot(Noun):
     '''
     A convenient hack that lets pages that have no actual noun have verbs and verb-based permissions. 
     '''
-    verb_classes = [SiteJoinVerb, SiteLoginVerb, SprocketCreateVerb]
+    verb_classes = [SiteJoinVerb, SiteLoginVerb, SprocketCreateVerb, SprocketListVerb]
+
+    def __unicode__(self):
+        return 'Site Root'
 
     class Meta:
         abstract = True
@@ -74,7 +80,7 @@ class SprocketeerVerb(CoreVerb):
 
     @availability_login_required
     def is_available(self, user):
-        return self.noun.sprocketeers.filter(id=user.id).count() > 0
+        return self.noun.is_sprocketeer(user)
 
     def get_url(self):
         return reverse(viewname=self.view_name, args=[self.noun.id], current_app=self.app)
@@ -96,3 +102,4 @@ class SprocketDetailVerb(AuthenticatedVerb):
 
     def get_url(self):
         return reverse(viewname=self.view_name, args=[self.noun.id], current_app=self.app)
+

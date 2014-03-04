@@ -37,13 +37,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">carteblanche</a>
+        <a class="navbar-brand" href="/">carteblanche</a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li class="active"><a href="https://github.com/neuman/carteblanche-django-starter">Github</a></li>
         </ul>
       </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
@@ -58,18 +56,24 @@
           <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
         </p>
         <div class="jumbotron">
-          <p>
-            conditions: {% for condition in  conditions %}<span class="badge">{{ condition }}</span>{% endfor %}
-          </p>
-          {{ object_instance }}
           {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">{{ message }}</div>
           {% endfor %}
-          {{ noun }}
+          <p>
+            Conditions: {% for condition in  conditions %}<span class="badge">{{ condition }}</span>{% endfor %}
+          </p>
+          {{ object_instance }}
+          <p>{{ noun }}</p>
           {% block showcase %}
             {% for noun in nouns %}
-              {{ noun }}
+              <p>{{ noun }}</p>
             {% endfor %}
+          <ul>
+          {% for noun in object_list %}
+              <li><a href="{{ noun.get_absolute_url }}">{{ noun }}</a></li>
+          {% empty %}
+          {% endfor %}
+          </ul>
           {% endblock %}
         </div>
         <div class="row">
@@ -93,7 +97,7 @@
     <hr>
 
     <footer>
-      <p>&copy; Company 2014</p>
+      <p>&copy; carteblanche is a <a href="http://www.theneuman.com">neuman</a> thing</p>
     </footer>
 
   </div><!--/.container-->
@@ -106,5 +110,16 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="../../dist/js/bootstrap.min.js"></script>
   <script src="offcanvas.js"></script>
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+jQuery(function() {
+  jQuery('.list-group-item').each(function() {
+    if (jQuery(this).attr('href')  ===  window.location.pathname) {
+      jQuery(this).addClass('active');
+    }
+  });
+});  
+//]]>
+</script>
 </body>
 </html>

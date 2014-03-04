@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, FormView
+from django.views.generic.list import ListView
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.views.generic import DetailView
@@ -11,15 +12,13 @@ from django.contrib.auth import authenticate, login
 import core.models as cm
 import core.forms as cf
 
-# Create your views here.
-
 class SiteRootView(NounView):
     def get_noun(self, **kwargs):
         siteroot = cm.SiteRoot()
         return siteroot
 
 class IndexView(SiteRootView, TemplateView):
-    template_name = 'base.html'
+    template_name = 'index.html'
 
 #this login/user create stuff might be better off in a different app
 class UserCreateView(SiteRootView, CreateView):
@@ -68,6 +67,38 @@ class SprocketView(NounView):
 
 class SprocketDetailView(SprocketView, TemplateView):
     template_name = 'base.html'
+
+from django.core.urlresolvers import resolve
+   
+class SprocketListlView(SiteRootView, ListView):
+    template_name = 'base.html'
+
+    def get_url_name(self):
+        return resolve(self.request.path_info).url_name
+
+    def get_verb_display_name(self):
+        return self.get_view_required_verbs(self.get_url_name())[0].display_name
+
+    def get_context_data(self, **kwargs):
+        context = super(SprocketListlView, self).get_context_data(**kwargs)
+        #raise Exception(self.noun.get_verbs())
+        context['verb_display_name'] = self.get_verb_display_name()
+        return context
+
+    def get_queryset(self):
+        """
+        Return the list of items for this view.
+
+        The return value must be an iterable and may be an instance of
+        `QuerySet` in which case `QuerySet` specific behavior will be enabled.
+        """
+        if self.queryset is not None:
+            queryset = self.queryset
+            if isinstance(queryset, QuerySet):
+                queryset = queryset.all()
+        else:
+            queryset = cm.Sprocket.objects.all()
+        return queryset
 
 class SprocketUpdateView(SprocketView, UpdateView):
     model = cm.Sprocket
