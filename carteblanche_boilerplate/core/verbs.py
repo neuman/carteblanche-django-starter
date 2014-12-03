@@ -7,6 +7,7 @@ APPNAME = 'core'
 class CoreVerb(DjangoVerb):
     app = APPNAME
     condition_name = 'is_public'
+    success_message = 'You did it!'
 
 
 class AuthenticatedVerb(CoreVerb):
