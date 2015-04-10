@@ -1,6 +1,6 @@
-Django==1.6.1
-South==0.8.4
+Django==1.7.4
 argparse==1.2.1
 carteblanche==1.0.0
+django-widget-tweaks==1.3
 ipython==1.2.1
 wsgiref==0.1.2

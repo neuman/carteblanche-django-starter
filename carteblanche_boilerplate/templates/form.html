@@ -1,21 +1,33 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% block title %}Form{% endblock %}
 {% block showcase %}
-	{% if form %}
-		<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-			{% for field in form %}
-				  <div class="form-group">
-				    <label for="exampleInputFile">{{ field.name }}</label>
-				    {{ field }}
-				    {% if field.help_text %}<p class="help-block">{{ field.help_text }}</p>{% endif %}
-				  </div>
-				{% if field.errors %}
-					{% for error in field.errors %}
-						<div class="alert alert-danger" id="error_{{ field.name }}">{{ error|escape }}</div>
-					{% endfor %}
-				{% endif %}
-			{% endfor %}
-			<input type="submit" class="btn btn-success" role="button" value="{{ verb|default:"Submit" }}" />
-		</form>
-	{% endif %}
+    <div class="header-buffer">
+    </div>
+    <section id="services">
+        <div class="container">
+<div class="row">
+  {% if form %}
+  <div class="col-md-12">
+   <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.media }}
+    {% for field in form %}
+    <div class="form-group warning">
+     <label for="exampleInputFile">{{ field.label }}</label>
+     {{ field|add_class:"form-control"}}
+     {% if field.help_text %}<p class="help-block">{{ field.help_text }}</p>{% endif %}
+   </div>
+   {% if field.errors %}
+   {% for error in field.errors %}
+   <div class="alert alert-danger" id="error_{{ field.name }}">{{ error|escape }}</div>
+   {% endfor %}
+   {% endif %}
+
+   {% endfor %}
+   <input type="submit" class="btn btn-success" role="button" value="{{ verb|default:"Submit" }}" />
+ </form>
+</div>
+{% endif %}
+</div>
+</div>
+</section>
 {% endblock %}
