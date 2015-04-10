@@ -36,7 +36,7 @@ class NotAuthenticatedVerb(CoreVerb):
 
 
 class SiteJoinVerb(NotAuthenticatedVerb):
-    display_name = "Join Indiepen"
+    display_name = "Join This Site"
     view_name='user_create'
 
 
