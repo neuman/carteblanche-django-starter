@@ -43,7 +43,7 @@ class SiteJoinVerb(NotAuthenticatedVerb):
 class SiteLoginVerb(NotAuthenticatedVerb):
     display_name = "Login"
     view_name='user_login'
-
+    
 
 class SprocketCreateVerb(CoreVerb):
     display_name = "Create New Sprocket"

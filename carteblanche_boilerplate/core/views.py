@@ -70,35 +70,10 @@ class SprocketDetailView(SprocketView, TemplateView):
 
 from django.core.urlresolvers import resolve
    
-class SprocketListlView(SiteRootView, ListView):
+class SprocketListView(SiteRootView, ListView):
     template_name = 'base.html'
+    queryset = cm.Sprocket.objects.all()
 
-    def get_url_name(self):
-        return resolve(self.request.path_info).url_name
-
-    def get_verb_display_name(self):
-        return self.get_view_required_verbs(self.get_url_name())[0].display_name
-
-    def get_context_data(self, **kwargs):
-        context = super(SprocketListlView, self).get_context_data(**kwargs)
-        #raise Exception(self.noun.get_verbs())
-        context['verb_display_name'] = self.get_verb_display_name()
-        return context
-
-    def get_queryset(self):
-        """
-        Return the list of items for this view.
-
-        The return value must be an iterable and may be an instance of
-        `QuerySet` in which case `QuerySet` specific behavior will be enabled.
-        """
-        if self.queryset is not None:
-            queryset = self.queryset
-            if isinstance(queryset, QuerySet):
-                queryset = queryset.all()
-        else:
-            queryset = cm.Sprocket.objects.all()
-        return queryset
 
 class SprocketUpdateView(SprocketView, UpdateView):
     model = cm.Sprocket
